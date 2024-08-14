@@ -3,4 +3,7 @@ src = "src"
 out = "out"
 libs = ["lib"]
 
-# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+remappings = [
+    '@chainlink/contracts@1.1.1/=lib/chainlink-brownie-contracts/contracts/',
+    '@solmate/tokens=lib/solmate/src/tokens/',
+] # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
