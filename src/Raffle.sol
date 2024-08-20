@@ -34,7 +34,7 @@ pragma solidity 0.8.19;
 // import {VRFV2PlusClient} from "@chainlink/contracts@1.1.1//src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
 import {VRFConsumerBaseV2Plus} from "@chainlink/contracts@1.1.1/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol"; // this is used to generate randomness for the contract
 // import {VRFV2PlusClient} from "@chainlink/contracts@1.1.1/src/v0.8/dev/vrf/libraries/VRFV2PlusClient.sol";
-import {console} from "forge-std/Script.sol";
+import {console} from "forge-std/console.sol";
 import "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol";
 
 // import {IVRFCoordinatorV2Plus} from "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol";
@@ -49,6 +49,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
     /* Events */
     event RaffleEntered(address indexed player);
     event RaffleWinnerPicked(address indexed player);
+    event RaffleRequestedRaffleWinner(uint256 indexed requestId);
 
     /* Errors */
     error Raffle_NotEnoughETHForEntranceFee();
@@ -157,7 +158,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
         s_raffleState = RaffleState.CALCULATING;
         // get our random number from Chainlink VRF 2.5
         // 1. Request RNG
-        // 2 Get RNG
+        // 2. Get RNG
 
         VRFV2PlusClient.RandomWordsRequest memory request = VRFV2PlusClient
             .RandomWordsRequest({
@@ -171,6 +172,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
                 )
             });
         uint256 requestId = s_vrfCoordinator.requestRandomWords(request);
+        emit RaffleRequestedRaffleWinner(requestId);
     }
 
     // CEI: Checks, Effects, Interactions Pattern for setting up SC functions
@@ -207,5 +209,13 @@ contract Raffle is VRFConsumerBaseV2Plus {
 
     function getPlayer(uint256 indexOfPlayer) external view returns (address) {
         return s_players[indexOfPlayer];
+    }
+
+    function getLastTimeStamp() external view returns (uint256 lastTimeStamp) {
+        return s_lastTimeStamp;
+    }
+
+    function getRecentWinner() external view returns (address s_recentWinner) {
+        return s_recentWinner;
     }
 }
