@@ -60,7 +60,8 @@ contract HelperConfig is Script, CodeConstants {
                 vrfCoordinatoraddress: 0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B,
                 gasLane: 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae,
                 callbackGasLimit: 5000000,
-                subscriptionId: 97848032610390471299513016309873164503481787541783655653072258848800262723251,
+                // create your own subscription on Chainlink Automation and paste it below
+                subscriptionId: 0,
                 link: 0x779877A7B0D9E8603169DdbD7836e478b4624789,
                 account: 0x811d8c0EC4E5307AfE8D224A9A52de7CbC09ce5d
             });
